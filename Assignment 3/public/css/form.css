@@ -1,0 +1,67 @@
+.container {
+    float: left;
+    width: 450px;
+
+}
+
+.actionForm {
+    padding: 30px;
+    margin: 35px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    background-color: rgba(255, 255, 255, 0.5);
+
+}
+
+.contentLeft{
+    width: auto;
+    float: left;
+}
+
+#searchCityContainer, #insertCityContainer{
+    width: 673px;
+}
+
+#searchCityActionForm, #insertCityActionForm{
+    margin-left: 0px;
+}
+
+#searchCityContainer {
+    /*width: auto;*/
+        margin-left: -15px;
+}
+
+#searchCityForm, #insertCityForm{
+    min-width: 350px;
+}
+
+#searchCity, #insertCity{
+    width: 85%;
+    display: inline;
+}
+
+#searchCity{
+    margin-left: 30px;
+}
+
+#searchCityButton, #insertCityButton{
+    margin-top: -5px;
+}
+
+#placeEmail{
+    color: white;
+        padding: 30px;
+    margin-right: 30px;
+    margin-top: 33px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 885px;
+}
+
+#insertCityActionForm{
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.2);
+    transition: 0.3s;
+}

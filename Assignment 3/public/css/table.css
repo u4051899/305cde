@@ -1,0 +1,70 @@
+#allCityWeatherTable,
+#allCityWeatherTableTitle {
+    max-width: 1050px;
+    min-width: 1050px;
+    text-align: center;
+    transition: 0.3s;
+    margin-bottom: 0px;
+    /*background-color: rgba(255,255,255,0.8);*/
+}
+
+th,
+td {
+    width: 150px;
+    min-width: 150px;
+    max-width: 150px;
+}
+
+#allCityWeatherTableTitle {
+    margin-left: 0px;
+}
+
+th {
+    /*background-color: black;*/
+    /*color: white;*/
+}
+
+#tableSize {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 650px;
+    height: auto;
+    width: 1050px;
+    margin: 0px;
+    background-color: rgba(255, 255, 255, 0.8);
+
+}
+
+.weatherRowDefault {
+    cursor: default;
+}
+
+.weatherRowPointer {
+    cursor: pointer;
+}
+
+.otherTD, .otherTR{
+        width: 115px;
+    max-width: 115px;
+    min-width: 115px;
+}
+
+
+#deleteLink, #updateLink{
+    padding: 12px 12px;
+    text-align: center;
+    color: white;
+    text-decoration: none;
+}
+
+#deleteLink{
+
+    background-color: rgb(255, 102, 102);
+}
+
+#updateLink{
+    
+    background-color: rgb(0, 255, 153);
+}
+
+

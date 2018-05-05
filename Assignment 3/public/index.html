@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Weather</title>
+
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+   <link rel="stylesheet" href="/form.css" type="text/css" />
+   <link rel="stylesheet" href="/table.css" / type="text/css" />
+   <script type="text/javascript">
+      var getSession = "<%= getSession %>";
+   </script>
+</head>
+
+<body background="/background.jpg">
+   <div id="placeEmail" class="container">
+      <h3 id="setEmail"></h3>
+      <ul id="cityList">
+
+      </ul>
+
+   </div>
+
+
+   <div id="isForm" class="isForm">
+      <div class="container">
+         <div class="actionForm">
+            <label class="col-form-label"><h3>Sign in</h3></label>
+            <form method="post" action="/signin">
+               <input type="email" class="form-control" name="signinEmail" placeholder="Email" />
+               <br>
+               <input type="password" class="form-control" name="signinPassword" placeholder="Password" />
+               <br>
+               <input type="submit" class="btn btn-primary" value="Sign in" />
+            </form>
+            <br>
+            <hr>
+         </div>
+
+         <div class="actionForm">
+            <label class="col-form-label"><h3>Sign up</h3></label>
+            <form method="post" action="/signup">
+               <input type="email" class="form-control" name="signupEmail" placeholder="Email" />
+               <br>
+               <input type="password" class="form-control" name="signupPassword" placeholder="Password" />
+               <br>
+               <input type="password" class="form-control" name="signupPasswordConfirm" placeholder="Password Confirm" />
+               <br>
+               <input type="submit" class="btn btn-primary" value="Sign up" />
+            </form>
+            <hr>
+         </div>
+      </div>
+   </div>
+
+   <div class="contentLeft">
+      <div id="searchCityContainer" class="container">
+         <div id="searchCityActionForm" class="actionForm">
+            <form method="post" action="/search" id="searchCityForm">
+               <label for=""><h3 id="searchCityLabel"></h3></label>
+               <input type="text" id="searchCity" name="searchCity" class="form-control" placeholder="Search City..." value="<%= getSearchCity %>" />
+               <!--<br>-->
+               <input type="submit" id="searchCityButton" class="btn btn-success" name="" value="Search" />
+            </form>
+         </div>
+      </div>
+
+      <div id="insertCityContainer" class="container">
+         <div id="insertCityActionForm" class="actionForm">
+
+            <form method="post" action="/insert" id="insertCityForm">
+               <label for=""><h3>Insert City</h3></label>
+               <input type="text" id="insertCity" name="insertCity" class="form-control" placeholder="Insert City..." />
+               <input type="submit" id="insertCityButton" class="btn btn-primary" name="" value="Insert" />
+            </form>
+         </div>
+      </div>
+
+
+      <hr>
+
+      <table id="allCityWeatherTableTitle" class="table table-bordered table-dark " align="center">
+         <!--<tr>-->
+         <!--   <th>City</th>-->
+         <!--   <th>Temp</th>-->
+         <!--   <th>Temp Min</th>-->
+         <!--   <th>Temp Max</th>-->
+         <!--   <th>Cloud</th>-->
+         <!--   <th>Wind Degree</th>-->
+         <!--   <th>Wind Speed</th>-->
+
+         <!--   </tr>-->
+      </table>
+
+      <div id="tableSize">
+
+         <table id="allCityWeatherTable" class="table table-bordered table-hover" align="center">
+
+         </table>
+      </div>
+   </div>
+   </div>
+   <script type="text/javascript">
+   </script>
+
+
+   <script type="text/javascript">
+      var request = new XMLHttpRequest();
+
+      var searchCityValue = document.getElementById("searchCity").value;
+
+      if (searchCityValue != null && searchCityValue != "") {
+
+         request.open('GET', '/jsonOneCity/' + searchCityValue, true);
+         request.onload = function() {
+            var jsonDatas = JSON.parse(this.responseText);
+            var table = document.getElementById("allCityWeatherTable");
+
+
+            console.log(jsonDatas.jsonDatas.name);
+
+            var row = table.insertRow(0);
+
+            if (getSession != null && getSession != "") {
+               row.className = 'weatherRowPointer';
+               row.title = "Click to add the " + jsonDatas.jsonDatas.name + " to your favourite list";
+            }
+            else {
+               row.className = 'weatherRowDefault';
+               row.title = "Please sign in to add your favourite city";
+            }
+
+
+            var tableTitle = document.getElementById("allCityWeatherTableTitle");
+
+
+            var rowTitle = tableTitle.insertRow(0);
+
+            var cellName = rowTitle.insertCell(0);
+            var cellTemp = rowTitle.insertCell(1);
+            var cellTempMin = rowTitle.insertCell(2);
+            var cellTempMax = rowTitle.insertCell(3);
+            var cellCloud = rowTitle.insertCell(4);
+            var cellWindDeg = rowTitle.insertCell(5);
+            var cellWindSpeed = rowTitle.insertCell(6);
+            cellName.innerHTML = "City";
+            cellTemp.innerHTML = "Temp";
+            cellTempMin.innerHTML = "Temp Min";
+            cellTempMax.innerHTML = "Temp Max";
+            cellCloud.innerHTML = "Cloud";
+            cellWindDeg.innerHTML = "Wind Degree";
+            cellWindSpeed.innerHTML = "Wind Speed";
+
+
+            if (getSession != null && getSession != "") {
+
+               // var cellAdd = rowTitle.insertCell(7);
+               var cellUpdate = rowTitle.insertCell(7);
+               var cellDelete = rowTitle.insertCell(8);
+
+               // cellAdd.className ="otherTR";
+               cellDelete.className = "otherTR";
+               cellUpdate.className = "otherTR";
+               // cellAdd.innerHTML = "Add"
+               cellDelete.innerHTML = "Delete";
+               cellUpdate.innerHTML = "Update";
+
+            }
+
+
+            var cellName = row.insertCell(0);
+            var cellTemp = row.insertCell(1);
+            var cellTempMin = row.insertCell(2);
+            var cellTempMax = row.insertCell(3);
+            var cellCloud = row.insertCell(4);
+            var cellWindDeg = row.insertCell(5);
+            var cellWindSpeed = row.insertCell(6);
+            cellName.innerHTML = jsonDatas.jsonDatas.name;
+            cellTemp.innerHTML = jsonDatas.jsonDatas.temp + " ℃";
+            cellTempMin.innerHTML = jsonDatas.jsonDatas.temp_min + " ℃";
+            cellTempMax.innerHTML = jsonDatas.jsonDatas.temp_max + " ℃";
+            cellCloud.innerHTML = jsonDatas.jsonDatas.cloud;
+            cellWindDeg.innerHTML = jsonDatas.jsonDatas.wind_deg;
+            cellWindSpeed.innerHTML = jsonDatas.jsonDatas.wind_speed;
+
+
+            if (getSession != null && getSession != "") {
+
+               row.setAttribute("onclick", "window.location.href='/addToFavouriteList/" + jsonDatas.jsonDatas.name + "'");
+
+
+               // var cellAdd = row.insertCell(7);
+               var cellUpdate = row.insertCell(7);
+               var cellDelete = row.insertCell(8);
+
+               // cellAdd.className ="otherTD";
+               cellDelete.className = "otherTD";
+               cellUpdate.className = "otherTD";
+               cellDelete.title = "Delete the " + jsonDatas.jsonDatas.name;
+               cellUpdate.title = "Update the " + jsonDatas.jsonDatas.name;
+               // cellAdd.innerHTML = "+"
+               // cellDelete.innerHTML = "-";
+               // cellUpdate.innerHTML = "^";
+
+               cellDelete.setAttribute("id", "deleteLink");
+               cellUpdate.setAttribute("id", "updateLink");
+
+
+               var deleteLink = document.createElement("a");
+               deleteLink.setAttribute("href", "/del/" + jsonDatas.jsonDatas.name);
+               var deleteLinkText = document.createTextNode("Delete");
+               deleteLink.appendChild(deleteLinkText);
+               cellDelete.appendChild(deleteLink);
+
+               var updateLink = document.createElement("a");
+               updateLink.setAttribute("href", "/put/" + jsonDatas.jsonDatas.name);
+               var updateLinkText = document.createTextNode("Update");
+               updateLink.appendChild(updateLinkText);
+               cellUpdate.appendChild(updateLink);
+
+
+
+               deleteLink.setAttribute("id", "deleteLink");
+
+               updateLink.setAttribute("id", "updateLink");
+
+               document.getElementById("tableSize").style.width = "1281px";
+
+
+            }
+
+         }
+
+         request.send();
+
+      }
+
+      else {
+
+         request.open('GET', '/jsonAllCity', true);
+         request.onload = function() {
+
+            var jsonDatas = JSON.parse(this.responseText);
+
+            var table = document.getElementById("allCityWeatherTable");
+
+            var tableTitle = document.getElementById("allCityWeatherTableTitle");
+
+
+            var rowTitle = tableTitle.insertRow(0);
+
+            var cellName = rowTitle.insertCell(0);
+            var cellTemp = rowTitle.insertCell(1);
+            var cellTempMin = rowTitle.insertCell(2);
+            var cellTempMax = rowTitle.insertCell(3);
+            var cellCloud = rowTitle.insertCell(4);
+            var cellWindDeg = rowTitle.insertCell(5);
+            var cellWindSpeed = rowTitle.insertCell(6);
+            cellName.innerHTML = "City";
+            cellTemp.innerHTML = "Temp";
+            cellTempMin.innerHTML = "Temp Min";
+            cellTempMax.innerHTML = "Temp Max";
+            cellCloud.innerHTML = "Cloud";
+            cellWindDeg.innerHTML = "Wind Degree";
+            cellWindSpeed.innerHTML = "Wind Speed";
+
+
+            if (getSession != null && getSession != "") {
+
+               // var cellAdd = rowTitle.insertCell(7);
+               var cellUpdate = rowTitle.insertCell(7);
+               var cellDelete = rowTitle.insertCell(8);
+
+               // cellAdd.className ="otherTR";
+               cellDelete.className = "otherTR";
+               cellUpdate.className = "otherTR";
+               // cellAdd.innerHTML = "Add"
+               cellDelete.innerHTML = "Delete";
+               cellUpdate.innerHTML = "Update";
+            }
+
+
+            for (var jsonItem in jsonDatas.jsonDatas) {
+               console.log(jsonDatas.jsonDatas[jsonItem].name);
+               var row = table.insertRow(0);
+
+
+               if (getSession != null && getSession != "") {
+                  row.className = 'weatherRowPointer';
+                  row.title = "Click to add the " + jsonDatas.jsonDatas[jsonItem].name + " to your favourite list";
+
+               }
+               else {
+                  row.className = 'weatherRowDefault';
+                  row.title = "Please sign in to add your favourite city";
+               }
+
+
+               var cellName = row.insertCell(0);
+               var cellTemp = row.insertCell(1);
+               var cellTempMin = row.insertCell(2);
+               var cellTempMax = row.insertCell(3);
+               var cellCloud = row.insertCell(4);
+               var cellWindDeg = row.insertCell(5);
+               var cellWindSpeed = row.insertCell(6);
+               cellName.innerHTML = jsonDatas.jsonDatas[jsonItem].name;
+               cellTemp.innerHTML = jsonDatas.jsonDatas[jsonItem].temp + " ℃";
+               cellTempMin.innerHTML = jsonDatas.jsonDatas[jsonItem].temp_min + " ℃";
+               cellTempMax.innerHTML = jsonDatas.jsonDatas[jsonItem].temp_max + " ℃";
+               cellCloud.innerHTML = jsonDatas.jsonDatas[jsonItem].cloud;
+               cellWindDeg.innerHTML = jsonDatas.jsonDatas[jsonItem].wind_deg;
+               cellWindSpeed.innerHTML = jsonDatas.jsonDatas[jsonItem].wind_speed;
+
+
+               if (getSession != null && getSession != "") {
+
+
+                  row.setAttribute("onclick", "window.location.href='/addToFavouriteList/" + jsonDatas.jsonDatas[jsonItem].name + "'");
+
+                  // var cellAdd = row.insertCell(7);
+                  var cellUpdate = row.insertCell(7);
+                  var cellDelete = row.insertCell(8);
+
+                  // cellAdd.className ="otherTD";
+                  cellDelete.className = "otherTD";
+                  cellUpdate.className = "otherTD";
+                  cellDelete.title = "Delete the " + jsonDatas.jsonDatas[jsonItem].name;
+                  cellUpdate.title = "Update the " + jsonDatas.jsonDatas[jsonItem].name;
+                  // cellAdd.innerHTML = "+"
+                  // cellDelete.innerHTML = "-";
+                  // cellUpdate.innerHTML = "^";
+
+                  cellDelete.setAttribute("id", "deleteLink");
+                  cellUpdate.setAttribute("id", "updateLink");
+
+
+                  var deleteLink = document.createElement("a");
+                  deleteLink.setAttribute("href", "/del/" + jsonDatas.jsonDatas[jsonItem].name);
+                  var deleteLinkText = document.createTextNode("Delete");
+                  deleteLink.appendChild(deleteLinkText);
+                  cellDelete.appendChild(deleteLink);
+
+                  var updateLink = document.createElement("a");
+                  updateLink.setAttribute("href", "/put/" + jsonDatas.jsonDatas[jsonItem].name);
+                  var updateLinkText = document.createTextNode("Update");
+                  updateLink.appendChild(updateLinkText);
+                  cellUpdate.appendChild(updateLink);
+
+                  document.getElementById("tableSize").style.width = "1299px";
+
+
+                  deleteLink.setAttribute("id", "deleteLink");
+
+                  updateLink.setAttribute("id", "updateLink");
+
+
+
+               }
+
+
+
+            }
+            
+            
+         }
+
+         request.send();
+      }
+
+      document.getElementById("isForm").style.display = "";
+      document.getElementById("placeEmail").style.display = "none";
+      document.getElementById("insertCityContainer").style.display = "none";
+
+      document.getElementById("searchCityContainer").style.width = "1113px";
+      document.getElementById("searchCityLabel").innerHTML = "";
+
+      if (getSession != null && getSession != "") {
+         document.getElementById("isForm").style.display = "none";
+         document.getElementById("placeEmail").style.display = "";
+         document.getElementById("insertCityContainer").style.display = "";
+         document.getElementById("setEmail").innerHTML = "Email : " + getSession;
+         document.getElementById("searchCityLabel").innerHTML = "Search City";
+         document.getElementById("searchCityContainer").style.width = "673px";
+
+         document.getElementById("searchCity").style.marginLeft = "0px";
+
+
+
+             var requestTwo = new XMLHttpRequest();
+            
+            
+         requestTwo.open('GET', '/showFromFavouriteList', true);
+
+         requestTwo.onload = function() {
+            var userDatas = JSON.parse(this.responseText);
+            console.log(userDatas);
+
+            for (var userData in userDatas.userDatas) {
+
+               var fCity = userDatas.userDatas[userData].city
+
+                  var node = document.createElement("LI");
+                  var textnode = document.createTextNode(fCity);
+                  node.appendChild(textnode);
+                  document.getElementById("cityList").appendChild(node);
+
+            }
+
+         }
+
+         requestTwo.send();
+
+
+
+      }
+
+      console.log("Session : " + getSession);
+
+
+      function addToFavouriteList(city) {
+         console.log(city);
+
+      }
+   </script>
+
+</body>
+
+</html>
