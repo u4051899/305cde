@@ -15,12 +15,15 @@
 <body background="/background.jpg">
    <div id="placeEmail" class="container">
       <h3 id="setEmail"></h3>
+      
+      <a href="/signout" id="signoutLink">Sign out</a>
+      <hr>
+      <h5>Favourite</h5>
       <ul id="cityList">
 
       </ul>
 
    </div>
-
 
    <div id="isForm" class="isForm">
       <div class="container">
@@ -393,13 +396,16 @@
 
          requestTwo.onload = function() {
             var userDatas = JSON.parse(this.responseText);
-            console.log(userDatas);
+            
 
             for (var userData in userDatas.userDatas) {
 
-               var fCity = userDatas.userDatas[userData].city
-
+            
+                  
+                  var fCity =  userDatas.userDatas[userData]
+                  
                   var node = document.createElement("LI");
+                  node.setAttribute("onclick", "window.location.href='/seachFromFavourite/"+fCity+"'");
                   var textnode = document.createTextNode(fCity);
                   node.appendChild(textnode);
                   document.getElementById("cityList").appendChild(node);

@@ -43,28 +43,38 @@ th {
     cursor: pointer;
 }
 
-.otherTD, .otherTR{
-        width: 115px;
+.otherTD,
+.otherTR {
+    width: 115px;
     max-width: 115px;
     min-width: 115px;
 }
 
 
-#deleteLink, #updateLink{
+#deleteLink,
+#updateLink {
     padding: 12px 12px;
     text-align: center;
     color: white;
     text-decoration: none;
 }
 
-#deleteLink{
+#deleteLink {
 
     background-color: rgb(255, 102, 102);
 }
 
-#updateLink{
-    
-    background-color: rgb(0, 255, 153);
+#updateLink {
+
+    background-color: rgb(81, 210, 139)
 }
 
+li {
+    font-size: 20px;
+    cursor: pointer;
+}
 
+li:hover {
+    text-shadow: 0px 1px 15px #FFFFFF;
+    color: #ffc107;
+}

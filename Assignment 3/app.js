@@ -5,7 +5,6 @@ var port = process.env.POST || 8080;
 var session = require('express-session');
 var request = require('request');
 var bodyParser = require('body-parser');
-var isJSON = require('is-json');
 
 var go = require('./private/firebase.js');
 
@@ -63,8 +62,6 @@ app.get('/', function(req, res) {
 
     res.end();
 });
-
-
 
 
 app.get('/jsonAllCity', function(req, res) {
@@ -157,7 +154,6 @@ app.get('/addToFavouriteList/:name', function(req, res) {
 
         if (bool) {
             console.log("Add to favourite list success");
-
         }
 
         else {
@@ -177,15 +173,24 @@ app.get('/showFromFavouriteList/', function(req, res) {
     console.log(user);
 
     go.showFromFavouriteList(db, user, function(userDatas) {
-        console.log(userDatas.val());
-
-        res.json({ userDatas: userDatas.val() });
+        console.log(userDatas);
+        res.json({ userDatas: userDatas});
 
         res.end();
 
     });
 });
 
+app.get('/seachFromFavourite/:name', function(req, res) {
+    var selectedCity = JSON.stringify(req.params)
+    var city = JSON.parse(selectedCity);
+    
+    req.session.search_city = city.name;
+    
+    res.send(backHome);
+    res.end();
+    
+})
 
 app.post('/signin', function(req, res) {
 
@@ -239,6 +244,13 @@ app.post('/signup', function(req, res) {
     res.send(backHome);
     res.end();
 });
+
+app.get('/signout', function(req, res) {
+    req.session.destroy();
+    res.send(backHome);
+    res.end();
+})
+
 
 http.listen(port, function() {
     console.log('Server Port : ' + port);
